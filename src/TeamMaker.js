@@ -3,9 +3,19 @@ import { useState } from 'react';
 function PlayerDisplay({ player, handleRemovePlayer, key }) {
     return (
         <>
-            <div>
-                <input type="text" name="player" id={key} value={player} readOnly></input>
-                <button onClick={handleRemovePlayer}>Remove</button>
+            <div className="input-group mb-3">
+                <input
+                type="text" name="player" id={key} value={player} readOnly
+                className="form-control"
+                >
+                </input>
+                <button
+                onClick={handleRemovePlayer}
+                className="btn btn-outline-danger"
+                type="button"
+                >
+                    Remove
+                </button>
             </div>
         </>
     );
@@ -32,9 +42,16 @@ function PlayerInput({ addPlayer }) {
     };
 
     return (
-        <div>
-            <input type="text" id="new-player" name="new-player" onChange={handleChange} value={player}></input>
-            <button onClick={handleAddPlayer}>Add Player</button>
+        <div className="input-group mb-3">
+            <input type="text"
+            id="new-player"
+            name="new-player" onChange={handleChange} value={player}
+            className="form-control"
+            >
+            </input>
+            <button onClick={handleAddPlayer} className="btn btn-primary" type="button">
+                Add Player
+            </button>
         </div>
     );
 }
@@ -80,48 +97,92 @@ function PlayerForm({ setTeams }) {
     }
 
     return (
-        <>
-            <form action="">
-                <label htmlFor="team-size">Size of Each Team </label>
-                <input type="text" name="team-size" id="team-size" onChange={handleTeamSizeChange} value={teamSize}></input>
-            </form>
-            {
-                players.map(
-                    (player, index) => {
-                        return <PlayerDisplay player={player}
-                            handleRemovePlayer={() => removePlayer(index)}
-                            key={player + index}
-                        />
+        <div className="container">
+            <div className="row mb-5">
+                <div className="col"></div>
+                <div className="col">
+                    <form>
+                        <label htmlFor="team-size" className="form-label">Size of Each Team </label>
+                        <input type="text" name="team-size"
+                        id="team-size" className="form-control"
+                        onChange={handleTeamSizeChange} value={teamSize}>
+                        </input>
+                        <div id="team-size-help" className="form-text">How big is each team?</div>
+                    </form>
+                </div>
+                <div className="col"></div>
+            </div>
+            <div className="row mt-5">
+               <div className="col"></div>
+               <div className="col">
+               <form>
+                    {<h3 className="display-6 fw-bold text-body-emphasis">Players</h3>}
+                    {
+                        players.map(
+                            (player, index) => {
+                                return <PlayerDisplay player={player}
+                                    handleRemovePlayer={() => removePlayer(index)}
+                                    key={player + index}
+                                />
+                            }
+                        )
                     }
-                )
-            }
-            <PlayerInput addPlayer={addPlayer} />
-            <button onClick={makeTeams}>Make Teams</button>
-        </>
+               </form>
+               </div>
+               <div className="col"></div>
+            </div>
+            <div className="row mt-3">
+                <div className="col"></div>
+                <div className="col">
+                    <PlayerInput addPlayer={addPlayer} />
+                </div>
+                <div className="col"></div>
+            </div>
+            <div className="row mt-3">
+                <div className="col"></div>
+                <div className="col">
+                    <button onClick={makeTeams} className="btn btn-success">Make Teams</button>
+                </div>
+                <div className="col"></div>
+            </div>
+        </div>
     )
 }
 
+function TeamDisplay({ teams, setTeams }) {
+    return (
+        <div className="container">
+            <div className="row">
+            <div className="col"></div>
+            <div className="col">
+                {
+                    teams.map((team, index) => {
+                        return (
+                            <ul className="list-group mb-5 mt-3" key={index}>
+                                {team.map((member, i) => <li key={index + member + i} className="list-group-item">{member}</li>)}
+                            </ul>
+                        )
+                    })
+                }
+            </div>
+            <div className="col"></div>
+            </div>
+            <div className="row">
+                <div className="col"></div>
+                <div className="col">
+                    <button onClick={() => setTeams([])} className="btn btn-primary">Start Over</button>
+                </div>
+                <div className="col"></div>
+            </div>
+        </div>
+    )
+}
 
 export default function TeamMaker() {
     const [teams, setTeams] = useState([])
 
     if (teams.length > 0) {
-        return (
-            <>
-                {
-                    teams.map((team, index) => {
-                        return (
-                            <li key={index}>
-                                <ul>
-                                    {team.map((member, i) => <li key={member}>{member}</li>)}
-                                </ul>
-                            </li>
-                        )
-                    })
-                }
-                <button onClick={() => setTeams([])}>Start Over</button>
-            </>
-        )
+        return <TeamDisplay teams={teams} setTeams={setTeams}/>;
     } else {
         return <PlayerForm setTeams={setTeams} />;
     }
