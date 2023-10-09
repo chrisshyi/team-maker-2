@@ -64,11 +64,13 @@ function PlayerForm({ players, setPlayers, teamSize, setTeamSize, makeTeams }) {
     }
 
     function addPlayer(player) {
-        setPlayers([...players, player])
+        if (player !== '') {
+            setPlayers([...players, player]);
+        }
     }
 
     function removePlayer(index) {
-        setPlayers([...players.slice(0, index), ...players.slice(index + 1)])
+        setPlayers([...players.slice(0, index), ...players.slice(index + 1)]);
     }
 
     return (
