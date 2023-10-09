@@ -1,15 +1,17 @@
 {
   "dependencies": {
+    "gh-pages": "^6.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "^5.0.0"
   },
   "main": "/index.js",
-  "devDependencies": {},
   "name": "team-maker",
   "description": null,
   "version": "0.0.0",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -26,5 +28,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://chrisshyi.github.io/team-maker"
 }
