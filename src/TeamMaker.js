@@ -57,10 +57,7 @@ function PlayerInput({ addPlayer }) {
 }
 
 
-function PlayerForm({ setTeams }) {
-    const [players, setPlayers] = useState([]);
-    const [teamSize, setTeamSize] = useState('');
-
+function PlayerForm({ players, setPlayers, teamSize, setTeamSize, makeTeams }) {
     const handleTeamSizeChange = (event) => {
         const size = parseInt(event.target.value);
         setTeamSize(isNaN(size) ? '' : size);
@@ -72,28 +69,6 @@ function PlayerForm({ setTeams }) {
 
     function removePlayer(index) {
         setPlayers([...players.slice(0, index), ...players.slice(index + 1)])
-    }
-
-    function makeTeams() {
-        if (!teamSize || players.length === 0) {
-            return;
-        }
-
-        const teams = [];
-        console.log(`players = ${players}`);
-        const shuffledPlayers = [...players.slice()];
-        shuffleArray(shuffledPlayers);
-        console.log(`shuffledPlayers = ${shuffledPlayers}`);
-
-        for (let i = 0; i < shuffledPlayers.length; i += teamSize) {
-            console.log(`i = {i}`);
-            const end = Math.min(i + teamSize, shuffledPlayers.length)
-            const team = shuffledPlayers.slice(i, end);
-            console.log(`Pushing team = ${team}`);
-            teams.push(team);
-        }
-
-        setTeams(teams);
     }
 
     return (
@@ -141,7 +116,7 @@ function PlayerForm({ setTeams }) {
     )
 }
 
-function TeamDisplay({ teams, setTeams }) {
+function TeamDisplay({ teams, setTeams, makeTeams }) {
     return (
         <>
             <div className="row">
@@ -161,13 +136,40 @@ function TeamDisplay({ teams, setTeams }) {
                 <div className="col">
                     <button onClick={() => setTeams([])} className="btn btn-primary">Start Over</button>
                 </div>
+                <div className="col">
+                    <button className="btn btn-warning" onClick={makeTeams}>Shuffle</button>
+                </div>
             </div>
         </>
     )
 }
 
 export default function TeamMaker() {
-    const [teams, setTeams] = useState([])
+    const [teams, setTeams] = useState([]);
+    const [players, setPlayers] = useState([]);
+    const [teamSize, setTeamSize] = useState('');
+
+    function makeTeams() {
+        if (!teamSize || players.length === 0) {
+            return;
+        }
+
+        const teams = [];
+        console.log(`players = ${players}`);
+        const shuffledPlayers = [...players.slice()];
+        shuffleArray(shuffledPlayers);
+        console.log(`shuffledPlayers = ${shuffledPlayers}`);
+
+        for (let i = 0; i < shuffledPlayers.length; i += teamSize) {
+            console.log(`i = {i}`);
+            const end = Math.min(i + teamSize, shuffledPlayers.length)
+            const team = shuffledPlayers.slice(i, end);
+            console.log(`Pushing team = ${team}`);
+            teams.push(team);
+        }
+
+        setTeams(teams);
+    }
 
     return (
         <div className="container">
@@ -175,7 +177,12 @@ export default function TeamMaker() {
                 <div className="col-md-3 col-sm-1"></div>
                 <div className="col-md-6 col-sm-10">
                     {
-                        teams.length > 0 ? <TeamDisplay teams={teams} setTeams={setTeams} /> : <PlayerForm setTeams={setTeams} />
+                        teams.length > 0 ? <TeamDisplay teams={teams} setTeams={setTeams} makeTeams={makeTeams}/>
+                                         : <PlayerForm
+                                            players={players} setPlayers={setPlayers}
+                                            teamSize={teamSize} setTeamSize={setTeamSize}
+                                            makeTeams={makeTeams}
+                                           />
                     }
                 </div>
                 <div className="col-md-3 col-sm-1"></div>
