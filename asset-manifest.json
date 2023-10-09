@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/team-maker/static/css/main.2cb9a270.css",
-    "main.js": "/team-maker/static/js/main.0e8a1393.js",
+    "main.js": "/team-maker/static/js/main.99a9862c.js",
     "index.html": "/team-maker/index.html",
     "main.2cb9a270.css.map": "/team-maker/static/css/main.2cb9a270.css.map",
-    "main.0e8a1393.js.map": "/team-maker/static/js/main.0e8a1393.js.map"
+    "main.99a9862c.js.map": "/team-maker/static/js/main.99a9862c.js.map"
   },
   "entrypoints": [
     "static/css/main.2cb9a270.css",
-    "static/js/main.0e8a1393.js"
+    "static/js/main.99a9862c.js"
   ]
 }
