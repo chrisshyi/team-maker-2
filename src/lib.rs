@@ -1,7 +1,10 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use std::cmp::Reverse;
-struct Player {
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub struct Player {
     name: String,
     games: u32,
     id: u32
@@ -59,21 +62,26 @@ impl Player {
     }
 }
 
-struct Picker {
+#[wasm_bindgen]
+pub struct Picker {
     players: Vec<Player>,
 }
 
+#[wasm_bindgen]
 impl Picker {
+    #[wasm_bindgen(constructor)]
     pub fn new() -> Picker {
         Picker {
             players: Vec::new(),
         }
     }
 
+    #[wasm_bindgen]
     pub fn add_player(&mut self, player: Player) {
         self.players.push(player);
     }
 
+    #[wasm_bindgen]
     pub fn pick(&self, num_players: u32) -> Vec<Player> {
         let num_players: u32 = if num_players > self.players.len() as u32 {
             self.players.len() as u32
@@ -90,10 +98,12 @@ impl Picker {
         picks
     }
 
+    #[wasm_bindgen]
     pub fn set_player_games(&mut self, index: usize, games: u32) {
         self.players[index].set_games(games);
     }
 
+    #[wasm_bindgen]
     pub fn set_player_name(&mut self, index: usize, name: &str) {
         self.players[index].set_name(name);
     }
