@@ -34,6 +34,12 @@ export default class Picker {
         }
     }
 
+    togglePlayerPaused(id) {
+        if (this.players.has(id)) {
+            this.players.get(id).paused = !this.players.get(id).paused;
+        }
+    }
+
     removePlayer(id) {
         this.players.delete(id);
     }
@@ -66,20 +72,23 @@ export default class Picker {
     }
 
     pick(numPicks) {
-        if (this.players.size === 0) {
-            return [];
-        }
-        const players = Array.from(this.players.values());
-        players.sort((p1, p2) => {
-            if (p1.games < p2.games) {
-                return -1;
-            } else if (p1.games > p2.games) {
-                return 1;
-            } else {
-                return p1.id - p2.id;
-            }
-        });
+        const players = this.getPlayers().filter(player => !player.paused);
         numPicks = Math.min(numPicks, players.length);
         return Array.from(players.slice(0, numPicks));
+    }
+
+    pickRandom(numPicks) {
+        const players = Array.from(this.players.values()).filter(player => !player.paused);
+        shuffleArray(players);
+        numPicks = Math.min(numPicks, players.length);
+        return Array.from(players.slice(0, numPicks));
+    }
+}
+
+/* Randomize array in-place using Durstenfeld shuffle algorithm */
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
 }
