@@ -7,7 +7,7 @@ function PicksDisplay({ pickedPlayers }) {
             <div className="col">
                 <ul className="list-group">
                     {
-                        pickedPlayers.length > 0 && <h4>Players in the Current Round</h4>
+                        pickedPlayers.length > 0 && <h4>Current Players</h4>
                     }
                     {
                         pickedPlayers.map(
@@ -86,6 +86,28 @@ function PlayerInput({ addPlayer }) {
     );
 }
 
+function NumPicksInput({ numPicks, setNumPicks }) {
+    const handleNumPicksChange = (event) => {
+        const size = parseInt(event.target.value);
+        setNumPicks(isNaN(size) ? '' : size);
+    }
+
+    return (
+        <div className="row mb-3">
+            <div className="col">
+                <form>
+                    <label htmlFor="team-size" className="form-label"># Players Next Round</label>
+                    <input type="text" name="team-size"
+                        id="team-size" className="form-control"
+                        onChange={handleNumPicksChange} value={numPicks}>
+                    </input>
+                    <div id="team-size-help" className="form-text">Number of players to pick for the next round</div>
+                </form>
+            </div>
+        </div>
+    )
+}
+
 
 function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, setCurrentPicks }) {
     const handleNumPicksChange = (event) => {
@@ -125,18 +147,6 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
 
     return (
         <>
-            <div className="row mb-3">
-                <div className="col">
-                    <form>
-                        <label htmlFor="team-size" className="form-label">Number of Players Next Round</label>
-                        <input type="text" name="team-size"
-                            id="team-size" className="form-control"
-                            onChange={handleNumPicksChange} value={numPicks}>
-                        </input>
-                        <div id="team-size-help" className="form-text">Number of players to pick for the next round</div>
-                    </form>
-                </div>
-            </div>
             <div className="row">
                 <div className="col">
                     <form>
@@ -168,11 +178,12 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
                     </form>
                 </div>
             </div>
-            <div className="row">
+            <div className="row mb-4">
                 <div className="col">
                     <PlayerInput addPlayer={addPlayer} />
                 </div>
             </div>
+            <NumPicksInput numPicks={numPicks} setNumPicks={setNumPicks} />
             <div className="row mb-4">
                 <div className="col">
                     <button onClick={pickPlayers} className="btn btn-success">Pick Players</button>
