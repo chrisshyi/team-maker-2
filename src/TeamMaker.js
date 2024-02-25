@@ -3,22 +3,24 @@ import Picker from "./picker";
 
 function PicksDisplay({ pickedPlayers }) {
     return (
-        <>
-            <ul className="list-group">
-                {
-                    pickedPlayers.length > 0 && <h4>Players in the Current Round</h4>
-                }
-                {
-                pickedPlayers.map(
-                    (player, _) => {
-                        return (
-                            <li className="list-group-item" key={player.id}>{player.name}</li>
+        <div className="row mb-5">
+            <div className="col">
+                <ul className="list-group">
+                    {
+                        pickedPlayers.length > 0 && <h4>Players in the Current Round</h4>
+                    }
+                    {
+                        pickedPlayers.map(
+                            (player, _) => {
+                                return (
+                                    <li className="list-group-item" key={player.id}>{player.name}</li>
+                                )
+                            }
                         )
                     }
-                )
-                }
-            </ul>
-        </>
+                </ul>
+            </div>
+        </div>
     )
 }
 
@@ -37,7 +39,7 @@ function PlayerDisplay({ player, handleRemovePlayer, handleIncPlayerGames, handl
                         className="btn btn-outline-danger"
                         type="button"
                     >
-                       X
+                        X
                     </button>
                 </div>
             </div>
@@ -135,9 +137,6 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
                     </form>
                 </div>
             </div>
-            <div className="row mb-5">
-                <PicksDisplay pickedPlayers={currentPicks} />
-            </div>
             <div className="row">
                 <div className="col">
                     <form>
@@ -174,11 +173,12 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
                     <PlayerInput addPlayer={addPlayer} />
                 </div>
             </div>
-            <div className="row">
+            <div className="row mb-4">
                 <div className="col">
                     <button onClick={pickPlayers} className="btn btn-success">Pick Players</button>
                 </div>
             </div>
+            <PicksDisplay pickedPlayers={currentPicks} />
         </>
     )
 }
