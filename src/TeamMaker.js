@@ -170,7 +170,7 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
             <div className="row">
                 <div className="col">
                     <form>
-                        {<h3 className="display-6 fw-bold text-body-emphasis">Players</h3>}
+                        <h3 className="display-7 fw-bold text-body-emphasis mt-4">Players</h3>
                         {
                             picker.getPlayers().length > 0 &&
                             <div className="row mb-2">
