@@ -41,6 +41,7 @@ function PlayerDisplay({ player, handleRemovePlayer, handleIncPlayerGames, handl
                     >
                         X
                     </button>
+                    {/*<button className="btn btn-outline-warning" type="button">😴</button>*/}
                 </div>
             </div>
             <div className="col">
