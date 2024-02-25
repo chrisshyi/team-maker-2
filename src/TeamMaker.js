@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { add_player, get_players } from "wasm-lib";
 
 function PlayerDisplay({ player, handleRemovePlayer, key }) {
     return (
@@ -66,6 +67,7 @@ function PlayerForm({ players, setPlayers, teamSize, setTeamSize, makeTeams }) {
     function addPlayer(player) {
         if (player !== '') {
             setPlayers([...players, player]);
+            add_player(player);
         }
     }
 
@@ -149,7 +151,12 @@ function TeamDisplay({ teams, setTeams, makeTeams }) {
 export default function TeamMaker() {
     const [teams, setTeams] = useState([]);
     const [players, setPlayers] = useState([]);
-    const [teamSize, setTeamSize] = useState('');
+    const [teamSize, setTeamSize] = useState("");
+
+    useEffect(() => {
+        const players = get_players();
+        console.log(`players = ${players}`);
+    });
 
     function makeTeams() {
         if (!teamSize || players.length === 0) {
@@ -179,12 +186,12 @@ export default function TeamMaker() {
                 <div className="col-md-3 col-sm-1"></div>
                 <div className="col-md-6 col-sm-10">
                     {
-                        teams.length > 0 ? <TeamDisplay teams={teams} setTeams={setTeams} makeTeams={makeTeams}/>
-                                         : <PlayerForm
-                                            players={players} setPlayers={setPlayers}
-                                            teamSize={teamSize} setTeamSize={setTeamSize}
-                                            makeTeams={makeTeams}
-                                           />
+                        teams.length > 0 ? <TeamDisplay teams={teams} setTeams={setTeams} makeTeams={makeTeams} />
+                            : <PlayerForm
+                                players={players} setPlayers={setPlayers}
+                                teamSize={teamSize} setTeamSize={setTeamSize}
+                                makeTeams={makeTeams}
+                            />
                     }
                 </div>
                 <div className="col-md-3 col-sm-1"></div>

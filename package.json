@@ -3,7 +3,8 @@
     "gh-pages": "^6.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-scripts": "^5.0.0"
+    "react-scripts": "^5.0.0",
+    "wasm-lib": "file:wasm-lib/pkg"
   },
   "main": "/index.js",
   "name": "team-maker",
@@ -15,7 +16,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:wasm": "cd wasm-lib && wasm-pack build --target web --out-dir pkg"
   },
   "browserslist": {
     "production": [
