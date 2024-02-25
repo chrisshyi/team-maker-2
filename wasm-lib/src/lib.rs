@@ -34,7 +34,10 @@ pub fn set_player_games(id: u32, games: u32) {
 
 #[wasm_bindgen]
 pub fn get_players() -> Vec<Player> {
-    PICKER.read().unwrap().as_ref().unwrap().get_players()
+    match PICKER.read().unwrap().as_ref() {
+        Some(picker) => picker.get_players().clone(),
+        None => Vec::new()
+    }
 }
 
 #[wasm_bindgen]
@@ -183,7 +186,7 @@ impl Picker {
 
 #[wasm_bindgen(start)]
 pub fn main() {
-
+    PICKER.write().unwrap().replace(Picker::new());
     add_player(format!("Player 1").as_str());
     add_player(format!("Player 2").as_str());
     add_player(format!("Player 3").as_str());
