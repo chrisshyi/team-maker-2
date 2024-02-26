@@ -111,12 +111,12 @@ function NumPicksInput({ numPicks, setNumPicks }) {
         <div className="row mb-3">
             <div className="col">
                 <form>
-                    <label htmlFor="team-size" className="form-label"># Players Next Round</label>
-                    <input type="text" name="team-size"
-                        id="team-size" className="form-control"
+                    <label htmlFor="num-picks" className="form-label"># Players Next Round</label>
+                    <input type="text" name="num-picks"
+                        id="num-picks" className="form-control"
                         onChange={handleNumPicksChange} value={numPicks}>
                     </input>
-                    <div id="team-size-help" className="form-text">Number of players to pick for the next round</div>
+                    <div id="num-picks-help" className="form-text">Number of players to pick for the next round</div>
                 </form>
             </div>
         </div>
