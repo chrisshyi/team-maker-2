@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Picker from "./picker";
+import { shuffleArray  } from './random.js';
 import "./styles.css";
 
 function PicksDisplay({ pickedPlayers }) {
@@ -149,6 +150,7 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
         for (const pick of picks) {
             newPicker.setPlayerGames(pick.id, pick.games + 1);
         }
+        shuffleArray(picks);
         setPicker(newPicker);
         setCurrentPicks(picks);
     }

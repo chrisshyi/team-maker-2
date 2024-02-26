@@ -1,4 +1,5 @@
 import Player from './player.js';
+import { shuffleArray  } from './random.js';
 
 export default class Picker {
     constructor() {
@@ -82,13 +83,5 @@ export default class Picker {
         shuffleArray(players);
         numPicks = Math.min(numPicks, players.length);
         return Array.from(players.slice(0, numPicks));
-    }
-}
-
-/* Randomize array in-place using Durstenfeld shuffle algorithm */
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
     }
 }
