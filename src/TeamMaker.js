@@ -18,7 +18,7 @@ function PicksDisplay({ pickedPlayers, picker, setPicker, setCurrentPicks }) {
 
     return (
         <>
-            <div className="row mb-5">
+            <div className="row mb-3">
                 <div className="col">
                     <ul className="list-group">
                         {
