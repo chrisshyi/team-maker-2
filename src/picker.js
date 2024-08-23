@@ -72,13 +72,17 @@ export default class Picker {
         }
     }
 
-    pick(numPicks) {
+    pickRandomLowest(numPicks) {
+        /*
+          Randomly pick players among those who played the least number of games
+        */
         const players = this.getPlayers().filter(player => !player.paused);
+        shuffleArray(players);
         numPicks = Math.min(numPicks, players.length);
         return Array.from(players.slice(0, numPicks));
     }
 
-    pickRandom(numPicks) {
+    pickRandomAll(numPicks) {
         const players = Array.from(this.players.values()).filter(player => !player.paused);
         shuffleArray(players);
         numPicks = Math.min(numPicks, players.length);

@@ -3,26 +3,51 @@ import Picker from "./picker";
 import { shuffleArray  } from './random.js';
 import "./styles.css";
 
-function PicksDisplay({ pickedPlayers }) {
+function PicksDisplay({ pickedPlayers, picker, setPicker, setCurrentPicks }) {
+    function acceptPicks() {
+        const newPicker = picker.clone(picker.players, picker.currentId);
+        for (const pick of pickedPlayers) {
+            newPicker.setPlayerGames(pick.id, pick.games + 1);
+        }
+        setPicker(newPicker);
+    }
+
+    function rejectPicks() {
+        setCurrentPicks([]);
+    }
+
     return (
-        <div className="row mb-5">
-            <div className="col">
-                <ul className="list-group">
-                    {
-                        pickedPlayers.length > 0 && <h4>Picks</h4>
-                    }
-                    {
-                        pickedPlayers.map(
-                            (player, _) => {
-                                return (
-                                    <li className="list-group-item" key={player.id}>{player.name}</li>
-                                )
-                            }
-                        )
-                    }
-                </ul>
+        <>
+            <div className="row mb-5">
+                <div className="col">
+                    <ul className="list-group">
+                        {
+                            pickedPlayers.length > 0 && <h4>Picks</h4>
+                        }
+                        {
+                            pickedPlayers.map(
+                                (player, _) => {
+                                    return (
+                                        <li className="list-group-item" key={player.id}>{player.name}</li>
+                                    )
+                                }
+                            )
+                        }
+                    </ul>
+                </div>
             </div>
-        </div>
+            {
+                pickedPlayers.length > 0 &&
+                <div className="row mb-5">
+                    <div className="col">
+                        <button onClick={() => acceptPicks()} className="btn btn-success">Accept</button>
+                    </div>
+                    <div className="col">
+                        <button onClick={() => rejectPicks()} className="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            }
+        </>
     )
 }
 
@@ -142,16 +167,10 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
     function pickPlayers(random) {
         let picks;
         if (random) {
-            picks = picker.pickRandom(numPicks);
+            picks = picker.pickRandomAll(numPicks);
         } else {
-            picks = picker.pick(numPicks);
+            picks = picker.pickRandomLowest(numPicks);
         }
-        const newPicker = picker.clone(picker.players, picker.currentId);
-        for (const pick of picks) {
-            newPicker.setPlayerGames(pick.id, pick.games + 1);
-        }
-        shuffleArray(picks);
-        setPicker(newPicker);
         setCurrentPicks(picks);
     }
 
@@ -209,13 +228,13 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
             <NumPicksInput numPicks={numPicks} setNumPicks={setNumPicks} />
             <div className="row mb-4">
                 <div className="col">
-                    <button onClick={() => pickPlayers(false)} className="btn btn-success">Pick Players</button>
+                    <button onClick={() => pickPlayers(false)} className="btn btn-primary">Random Lowest</button>
                 </div>
                 <div className="col">
-                    <button onClick={() => pickPlayers(true)} className="btn btn-primary">Random</button>
+                    <button onClick={() => pickPlayers(true)} className="btn btn-info">Random All</button>
                 </div>
             </div>
-            <PicksDisplay pickedPlayers={currentPicks} />
+            <PicksDisplay pickedPlayers={currentPicks} setCurrentPicks={setCurrentPicks} picker={picker} setPicker={setPicker}/>
         </>
     )
 }
