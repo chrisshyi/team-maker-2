@@ -56,7 +56,10 @@ export default class Picker {
             } else if (p1.games > p2.games) {
                 return 1;
             } else {
-                return Math.random() < 0.5; // same rank, randomly sort
+                if (Math.random() < 0.5) {
+                    return 1
+                }
+                return -1;
             }
         });
         return players;
