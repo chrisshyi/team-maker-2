@@ -56,7 +56,7 @@ export default class Picker {
             } else if (p1.games > p2.games) {
                 return 1;
             } else {
-                return p1.id - p2.id;
+                return Math.random() < 0.5; // same rank, randomly sort
             }
         });
         return players;
@@ -77,7 +77,6 @@ export default class Picker {
           Randomly pick players among those who played the least number of games
         */
         const players = this.getPlayers().filter(player => !player.paused);
-        shuffleArray(players);
         numPicks = Math.min(numPicks, players.length);
         return Array.from(players.slice(0, numPicks));
     }
