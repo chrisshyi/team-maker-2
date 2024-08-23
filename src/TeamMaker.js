@@ -3,17 +3,31 @@ import Picker from "./picker";
 import { shuffleArray  } from './random.js';
 import "./styles.css";
 
-function PicksDisplay({ pickedPlayers, picker, setPicker, setCurrentPicks }) {
+function PicksDisplay(
+    {
+        pickedPlayers, setCurrentPicks,
+        picker, setPicker,
+        usedPicks, setUsedPicks
+    }
+) {
     function acceptPicks() {
+        if (usedPicks) {
+            return;
+        }
         const newPicker = picker.clone(picker.players, picker.currentId);
         for (const pick of pickedPlayers) {
             newPicker.setPlayerGames(pick.id, pick.games + 1);
         }
         setPicker(newPicker);
+        setUsedPicks(true);
     }
 
     function rejectPicks() {
+        if (usedPicks) {
+            return;
+        }
         setCurrentPicks([]);
+        setUsedPicks(true);
     }
 
     return (
@@ -40,10 +54,22 @@ function PicksDisplay({ pickedPlayers, picker, setPicker, setCurrentPicks }) {
                 pickedPlayers.length > 0 &&
                 <div className="row mb-5">
                     <div className="col">
-                        <button onClick={() => acceptPicks()} className="btn btn-success">Accept</button>
+                        <button
+                            onClick={() => acceptPicks()}
+                            className="btn btn-success"
+                            disabled={usedPicks}
+                        >
+                            Accept
+                        </button>
                     </div>
                     <div className="col">
-                        <button onClick={() => rejectPicks()} className="btn btn-danger">Cancel</button>
+                        <button
+                            onClick={() => rejectPicks()}
+                            className="btn btn-danger"
+                            disabled={usedPicks}
+                        >
+                            Cancel
+                        </button>
                     </div>
                 </div>
             }
@@ -149,7 +175,10 @@ function NumPicksInput({ numPicks, setNumPicks }) {
 }
 
 
-function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, setCurrentPicks }) {
+function PlayerForm({
+    numPicks, setNumPicks, picker, setPicker, currentPicks, setCurrentPicks,
+    usedPicks, setUsedPicks
+}) {
     function addPlayer(player) {
         if (player !== '') {
             const newPicker = picker.clone(picker.players, picker.currentId);
@@ -172,6 +201,7 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
             picks = picker.pickRandomLowest(numPicks);
         }
         setCurrentPicks(picks);
+        setUsedPicks(false);
     }
 
     function setPlayerGames(id, games) {
@@ -234,7 +264,11 @@ function PlayerForm({ numPicks, setNumPicks, picker, setPicker, currentPicks, se
                     <button onClick={() => pickPlayers(true)} className="btn btn-info">Random All</button>
                 </div>
             </div>
-            <PicksDisplay pickedPlayers={currentPicks} setCurrentPicks={setCurrentPicks} picker={picker} setPicker={setPicker}/>
+            <PicksDisplay
+                pickedPlayers={currentPicks} setCurrentPicks={setCurrentPicks}
+                picker={picker} setPicker={setPicker}
+                usedPicks={usedPicks} setUsedPicks={setUsedPicks}
+            />
         </>
     )
 }
@@ -243,6 +277,7 @@ export default function TeamMaker() {
     const [numPicks, setNumPicks] = useState(0);
     const [currentPicks, setCurrentPicks] = useState([]);
     const [picker, setPicker] = useState(new Picker());
+    const [usedPicks, setUsedPicks] = useState(false);
 
     return (
         <div className="container">
@@ -254,6 +289,7 @@ export default function TeamMaker() {
                             picker={picker} setPicker={setPicker}
                             numPicks={numPicks} setNumPicks={setNumPicks}
                             currentPicks={currentPicks} setCurrentPicks={setCurrentPicks}
+                            usedPicks={usedPicks} setUsedPicks={setUsedPicks}
                         />
                     }
                 </div>
